@@ -1,7 +1,7 @@
 
 const blogPostModel = require('../Model/blogPostsModel');
 const userModel = require("../Model/userModel");
-const bcrypt = require("bcrypt"); // For password hashing
+const bcrypt = require("bcryptjs"); // For password hashing
 
 // Create User
 exports.createUser = async (req, res) => {
