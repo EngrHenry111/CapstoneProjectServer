@@ -1,5 +1,5 @@
 
-const blogPostModel = require('../Model/blogPostModel');
+const blogPostModel = require('../Model/blogPostsModel');
 const userModel = require("../Model/userModel");
 const bcrypt = require("bcrypt"); // For password hashing
 
@@ -7,7 +7,7 @@ const bcrypt = require("bcrypt"); // For password hashing
 exports.createUser = async (req, res) => {
     try {
 
-       const getUserId = await  blogPostModel.findById(req.params.userId)
+       const getUserId = await  blogPostModel.findById(req.params.postsId)
         const { userName, email, password } = req.body;
 
         if (!userName || !email || !password) {

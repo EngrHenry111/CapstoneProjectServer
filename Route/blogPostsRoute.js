@@ -1,15 +1,17 @@
-const blogPostsContrller = require('../Controller/blogPostController');
+const blogPostsController = require('../Controller/blogPostController');
 const express = require('express');
 
 const blogPostsRoute = express.Router();
 
 
-blogPostsRoute.post('/posts/:userId', upload.single("productImage"), blogPostsContrller.createPosts)
-blogPostsRoute.get('/allPost', blogPostsContrller.getAllPosts);
-blogPostsRoute.get('/singlePost', blogPostsContrller.getOnePostsById);
-blogPostsRoute.delete('/deletePost', blogPostsContrller.deletePosts);
-blogPostsRoute.patch('/deletePost', blogPostsContrller.updatePost);
+blogPostsRoute.post('/posts', blogPostsController.createPosts)
+blogPostsRoute.get('/allPost', blogPostsController.getAllPosts);
+blogPostsRoute.get('/singlePost', blogPostsController.getOnePostsById);
+blogPostsRoute.delete('/deletePost', blogPostsController.deletePosts);
+blogPostsRoute.patch('/deletePost', blogPostsController.updatePost);
 
 
-blogPostsRoute.post("/create-users/:postsId")
+
 module.exports = blogPostsRoute;
+
+///:postsId', upload.single("imageUrl")

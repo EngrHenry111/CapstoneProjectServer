@@ -9,9 +9,9 @@ exports.createPosts = async(req , res)=>{
         const { imageUrl, title, subtitle, content} = req.body;
          
        
-        const Upload = await cloudinary.uploader.upload(req.file.path);
+        const upload = await cloudinary.uploader.upload(req.file.path);
         const Posts = await blogPostModel.create({
-            imageUrl: Upload.secure_url,
+            imageUrl: upload.secure_url,
             title,
             subtitle,
             content

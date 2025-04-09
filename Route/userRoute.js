@@ -7,5 +7,5 @@ userRoute.post('/new-users', userController.createUser);
 userRoute.post('/login', userController.UserLogin );
 userRoute.post('/logout', userController.UserLogout );
 
-
+//blogPostsRoute.post("/create-users/:postsId")
 module.exports = userRoute;

@@ -5,7 +5,7 @@ const path = require('path');
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'upload/'); 
+    cb(null, 'Upload/'); 
   },          
   filename: function  (req, file, cb) {
     cb(null, `${Date.now()}-${file.originalname}`); 
@@ -15,7 +15,7 @@ const storage = multer.diskStorage({
 const fileFilter = (req, file, cb) => {
   const ext = path.extname(file.originalname).toLowerCase();
   
-  if (ext === '.jpg' || ext === '.jpeg' || ext === '.png') {
+  if (ext === '.jpg' || ext === '.jpeg' || ext === '.png' || ext === '.webp' || ext === '.avif') {
     cb(null, true);
   } else {
     cb(new Error('Only .jpg, .jpeg, and .png files are allowed'), false);
