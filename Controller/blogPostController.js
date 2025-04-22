@@ -5,11 +5,11 @@ const cloudinary = require('../config/cloudinary')
 
 exports.createPosts = async(req , res)=>{
     try {
-     
+      
         const { imageUrl, title, subtitle, content} = req.body;
          
        
-        const upload = await cloudinary.uploader.upload(req.file.path);
+        const upload = await cloudinary.uploader.upload(req.file.path)
         const Posts = await blogPostModel.create({
             imageUrl: upload.secure_url,
             title,
@@ -29,6 +29,37 @@ exports.createPosts = async(req , res)=>{
       };
 
 
+// const newLocal = exports.createPosts = async (req, res) => {
+
+//   try {
+//     const { title, subtitle, content } = req.body;
+
+//     if (!req.file) {
+//       return res.status(400).json({
+//         message: 'Image file is required'
+//       });
+//     }
+
+//     const uploadResult = await cloudinary.uploader.upload(req.file.path);
+
+//     const newPost = await blogPostModel.create({
+//       imageUrl: uploadResult.secure_url,
+//       title,
+//       subtitle,
+//       content
+//     });
+
+//     return res.status(201).json({
+//       message: 'Post created successfully',
+//       data: newPost
+//     });
+
+//   } catch (error) {
+//     console.error('Error creating post:', error);
+//     return res.status(500).json({ message: 'Internal Server Error' });
+//   }
+// };
+
 
       exports.getAllPosts = async (req, res) => {
         try {
@@ -47,7 +78,7 @@ exports.createPosts = async(req , res)=>{
         }
       };
 
-
+      
       exports.getOnePostsById = async (req, res) => {
         try {
     
@@ -81,6 +112,8 @@ exports.createPosts = async(req , res)=>{
           });
         }
       };
+
+      
 
       exports.updatePost = async(req, res)=>{
         try {

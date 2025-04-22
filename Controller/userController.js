@@ -1,25 +1,107 @@
+// //const blogPostModel = require('../Model/blogPostsModel');
+// const userModel = require("../Model/userModel");
+// const bcrypt = require("bcryptjs"); // For password hashing
+// const jwt = require('jsonwebtoken');
+// const JWT_SECRET = process.env.JWT_SECRET || "yourSecretKey";
 
-const blogPostModel = require('../Model/blogPostsModel');
+// // Create User
+// exports.createUser = async (req, res) => {
+//     try {
+//         const { userName, email, password } = req.body;
+
+//         // Validate fields
+//         if (!userName || !email || !password) {
+//             return res.status(400).json({ 
+//                 message: "All fields are required" 
+//             });
+//         }
+
+//         if (!userName) {
+//             return res.status(400).json({
+//                 message: "User name is required",
+//             });
+//         } else if (!email) {
+//             return res.status(400).json({
+//                 message: "Email is required"
+//             });
+//         } else if (!password) {
+//             return res.status(400).json({
+//                 message: "Password is required"
+//             });
+//         }
+
+//         // Check for existing user
+//         const existingUser = await userModel.findOne({ email });
+//         if (existingUser) {
+//             return res.status(409).json({
+//                 message: "Email already in use"
+//             });
+//         }
+
+//         // Hash Password
+//         const saltRounds = 10;
+//         const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+//         // Create User
+//         const newUser = await userModel.create({
+//             userName,
+//             email,
+//             password: hashedPassword, // Store hashed password
+//         });
+
+//         // Generate JWT Token
+//         const token = jwt.sign(
+//             { id: newUser._id, email: newUser.email },
+//             JWT_SECRET,
+//             { expiresIn: "7d" }
+//         );
+
+//         // Remove password from response data for security
+//         const { password: _, ...sanitizedUser } = newUser._doc;
+
+//         // Send successful response
+//         return res.status(200).json({
+//             message: "Sign up successful",
+//             token,
+//             user: sanitizedUser,
+//         });
+
+//     } catch (error) {
+//         console.error("Sign up error:", error.stack);
+//         return res.status(500).json({
+//             message: "Unable to sign up. Please try again.",
+//             error: error.message,
+//         });
+//     }
+// };
+
+
+
+
+
+// const blogPostModel = require('../Model/blogPostsModel');
 const userModel = require("../Model/userModel");
 const bcrypt = require("bcryptjs"); // For password hashing
+const jwt = require('jsonwebtoken');
+const JWT_SECRET = process.env.JWT_SECRET || "yourSecretKey";
 
 // Create User
 exports.createUser = async (req, res) => {
     try {
-
-       const getUserId = await  blogPostModel.findById(req.params.postsId)
+      //console. log("Incoming req.body:", req.body);
+      // const getPostId = await  blogPostModel.findById(req.params)
         const { userName, email, password } = req.body;
 
-        if (!userName || !email || !password) {
-            return res.status(400).json({ 
-            message: "All fields are required" });
-        }
+        // if (!userName || !email || !password) {
+        //     return res.status(400).json({ 
+        //     message: "All fields are required" });
+        // }
 
         if (!userName){
             return res.status(200).json({
                 message: "User name require here",
             });
-        
+       
         } else if (!email){
             return res.status(201).json({
                 message: "Email require here"
@@ -27,6 +109,13 @@ exports.createUser = async (req, res) => {
         }else if (!password){
             return res.status(202).json({
                 message: "Password require here"
+            });
+        }
+        //check existing user
+        const existingUser = await userModel.findOne({ email });
+        if (existingUser) {
+          return res.status(409).json({
+             message: "Email already in use" 
             });
         }
 
@@ -42,59 +131,123 @@ exports.createUser = async (req, res) => {
         });
 
 
-        getUserId.User.push(newUser?._id);
-        getUserId.save();
+        // getPostId.author.push(newUser?._id);
+        // getPostId.save();
 
-        return res.status(200).json({
+        const token = jwt.sign(
+            { id: newUser._id, email: newUser.email },
+            JWT_SECRET,
+            { expiresIn: "7d" }
+          );
+
+          const { password: _, ...sanitizedUser } = newUser._doc;
+
+          return res.status(200).json({
             message: "Sign up successfully",
-            data: newUser,
-        });
+            token,
+            user: sanitizedUser,
+          });
 
-    } catch (error) {
-        console.error("Sign up error:", error);
-        return res.status(400).json({
-            message: "Unable to sign up.\nTry again",
-            error: error.message,
-        });
+        // return res.status(200).json({
+        //     message: "Sign up successfully",
+        //     data: newUser,
+        // });
+
+        
+
+    }
+    //  catch (error) {
+    //     console.error("Sign up error:", error);
+    //     return res.status(400).json({
+    //         message: "Unable to sign up.\nTry again",
+    //         error: error.message,
+    //     });
+    // }
+
+    catch (error) {
+      console.error(" Signup failed with error stack: \n ", error.stack);
+      return res.status(400).json({
+        message: "Unable to sign up.\n Check and try again",
+        error: error.stack,
+      });
     }
 };
 
 // User Login
+
+
 exports.UserLogin = async (req, res) => {
     try {
-        const { email, password } = req.body;
-
-        if (!email || !password) {
-            return res.status(400).json({ 
-                message: "Email and password are required" });
-        }
-
-        const user = await userModel.findOne({ email });
-
-        if (!user) {
-            return res.status(401).json({
-                 message: "Invalid email or password" });
-        }
-
-        // Compare password
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-            return res.status(400).json({
-                 message: "Invalid email or password" });
-        }
-
-        return res.status(200).json({
-            message: "Login Successful",
-            data: user,
-        });
-
+      const { email, password } = req.body;
+  
+      if (!email || !password) {
+        return res.status(400).json({ message: "Email and password are required" });
+      }
+  
+      const user = await userModel.findOne({ email });
+      if (!user) {
+        return res.status(401).json({ message: "Invalid email or password" });
+      }
+  
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+        return res.status(401).json({ message: "Invalid email or password" });
+      }
+  
+      const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "7d" });
+  
+      const { password: _, ...sanitizedUser } = user._doc;
+  
+      return res.status(200).json({
+        message: "Login successful",
+        token,
+        user: sanitizedUser,
+      });
     } catch (error) {
-        return res.status(400).json({
-            message: "Login failed",
-            error: error.message,
-        });
+      return res.status(500).json({
+        message: "Login failed",
+        error: error.message,
+      });
     }
-};
+  };
+
+
+// exports.UserLogin = async (req, res) => {
+//     try { 
+
+//        const {email,  password} = req.body;
+
+//         if (!email || !password) {
+//             return res.status(400).json({ 
+//                 message: "Email and password are required" });
+//         }
+
+//         const user = await userModel.findOne({ email });
+
+//         if (!user) {
+//             return res.status(401).json({
+//                  message: "Invalid email or password" });
+//         }
+
+//         // Compare password
+//         const isMatch = await bcrypt.compare(password, user.password);
+//         if (!isMatch) {
+//             return res.status(400).json({
+//                  message: "Invalid email or password" });
+//         }
+
+//         return res.status(200).json({
+//             message: "Login Successful",
+//             data: user,
+//         });
+
+//     } catch (error) {
+//         return res.status(400).json({
+//             message: "Login failed",
+//             error: error.message,
+//         });
+//     }
+// };
 
 //User Logout
 exports.UserLogout = async (req, res) => {
@@ -139,24 +292,24 @@ exports.UserLogout = async (req, res) => {
 
 
 
-exports.deleteUser = async (req, res) => {
-    try {
-        const userId = req.params.id; // Get user ID from URL params
+// exports.deleteUser = async (req, res) => {
+//     try {
+//         const userId = req.params.id; // Get user ID from URL params
 
-        const deletedUser = await User.findByIdAndDelete(userId);
+//         const deletedUser = await User.findByIdAndDelete(userId);
 
-        if (!deletedUser) {
-            return res.status(400).json({ message: "User not found" });
-        }
+//         if (!deletedUser) {
+//             return res.status(400).json({ message: "User not found" });
+//         }
 
-        return res.status(200).json({ message: "User deleted successfully" });
-    } catch (error) {
-        return res.status(400).json({
-            message: "Failed to delete user",
-            error: error.message
-        });
-    }
-};
+//         return res.status(200).json({ message: "User deleted successfully" });
+//     } catch (error) {
+//         return res.status(400).json({
+//             message: "Failed to delete user",
+//             error: error.message
+//         });
+//     }
+// };
 
 
 

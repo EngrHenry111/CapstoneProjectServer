@@ -29,7 +29,7 @@ app.get("/", (req, res)=> {
 
 const live_URI = "mongodb+srv://EngrHenry:engrakpan@cluster.wavse.mongodb.net/Blogwebsite?retryWrites=true&w=majority&appName=Cluster"
 mongoose.connect(live_URI)
-.then(() => console.log("MongoDB Connected to this Service"))
+.then(() => console.log("MongoDB Connected to this Server"))
 .catch(err => console.error("Connection:", err));
 
 
