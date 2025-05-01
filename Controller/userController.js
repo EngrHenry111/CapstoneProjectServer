@@ -1,85 +1,7 @@
-// //const blogPostModel = require('../Model/blogPostsModel');
-// const userModel = require("../Model/userModel");
-// const bcrypt = require("bcryptjs"); // For password hashing
-// const jwt = require('jsonwebtoken');
-// const JWT_SECRET = process.env.JWT_SECRET || "yourSecretKey";
-
-// // Create User
-// exports.createUser = async (req, res) => {
-//     try {
-//         const { userName, email, password } = req.body;
-
-//         // Validate fields
-//         if (!userName || !email || !password) {
-//             return res.status(400).json({ 
-//                 message: "All fields are required" 
-//             });
-//         }
-
-//         if (!userName) {
-//             return res.status(400).json({
-//                 message: "User name is required",
-//             });
-//         } else if (!email) {
-//             return res.status(400).json({
-//                 message: "Email is required"
-//             });
-//         } else if (!password) {
-//             return res.status(400).json({
-//                 message: "Password is required"
-//             });
-//         }
-
-//         // Check for existing user
-//         const existingUser = await userModel.findOne({ email });
-//         if (existingUser) {
-//             return res.status(409).json({
-//                 message: "Email already in use"
-//             });
-//         }
-
-//         // Hash Password
-//         const saltRounds = 10;
-//         const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-//         // Create User
-//         const newUser = await userModel.create({
-//             userName,
-//             email,
-//             password: hashedPassword, // Store hashed password
-//         });
-
-//         // Generate JWT Token
-//         const token = jwt.sign(
-//             { id: newUser._id, email: newUser.email },
-//             JWT_SECRET,
-//             { expiresIn: "7d" }
-//         );
-
-//         // Remove password from response data for security
-//         const { password: _, ...sanitizedUser } = newUser._doc;
-
-//         // Send successful response
-//         return res.status(200).json({
-//             message: "Sign up successful",
-//             token,
-//             user: sanitizedUser,
-//         });
-
-//     } catch (error) {
-//         console.error("Sign up error:", error.stack);
-//         return res.status(500).json({
-//             message: "Unable to sign up. Please try again.",
-//             error: error.message,
-//         });
-//     }
-// };
 
 
 
-
-
-// const blogPostModel = require('../Model/blogPostsModel');
+ const blogPostModel = require('../Model/blogPostsModel');
 const userModel = require("../Model/userModel");
 const bcrypt = require("bcryptjs"); // For password hashing
 const jwt = require('jsonwebtoken');
@@ -89,7 +11,7 @@ const JWT_SECRET = process.env.JWT_SECRET || "yourSecretKey";
 exports.createUser = async (req, res) => {
     try {
       //console. log("Incoming req.body:", req.body);
-      // const getPostId = await  blogPostModel.findById(req.params)
+       const getPostId = await  blogPostModel.findById(req.params)
         const { userName, email, password } = req.body;
 
         // if (!userName || !email || !password) {
@@ -131,8 +53,8 @@ exports.createUser = async (req, res) => {
         });
 
 
-        // getPostId.author.push(newUser?._id);
-        // getPostId.save();
+         getPostId.author.push(newUser?._id);
+         getPostId.save();
 
         const token = jwt.sign(
             { id: newUser._id, email: newUser.email },
@@ -143,7 +65,7 @@ exports.createUser = async (req, res) => {
           const { password: _, ...sanitizedUser } = newUser._doc;
 
           return res.status(200).json({
-            message: "Sign up successfully",
+            message: "Sign up successfully. Explore",
             token,
             user: sanitizedUser,
           });
@@ -181,7 +103,8 @@ exports.UserLogin = async (req, res) => {
       const { email, password } = req.body;
   
       if (!email || !password) {
-        return res.status(400).json({ message: "Email and password are required" });
+        return res.status(400).json({
+           message: "Email and password are required" });
       }
   
       const user = await userModel.findOne({ email });
@@ -250,45 +173,45 @@ exports.UserLogin = async (req, res) => {
 // };
 
 //User Logout
-exports.UserLogout = async (req, res) => {
-    try {
-        return res.status(200).json({
-             message: "Logout successful" });
-    } catch (error) {
-        return res.status(400).json({
-            message: "Logout failed",
-            error: error.message,
-        });
-    }
-};
-
 // exports.UserLogout = async (req, res) => {
 //     try {
-//         // If using session-based authentication
-//         if (req.session) {
-//             req.session.destroy(err => {
-//                 if (err) {
-//                     return res.status(500).json({
-//                         message: "Logout failed",
-//                         error: err.message,
-//                     });
-//                 }
-//                 return res.status(200).json({
-//                     message: "Logout successful"
-//                 });
-//             });
-//         } else {
-//             return res.status(200).json({
-//                 message: "Logout successful"
-//             });
-//         }
+//         return res.status(200).json({
+//              message: "Logout successful" });
 //     } catch (error) {
-//         return res.status(500).json({
+//         return res.status(400).json({
 //             message: "Logout failed",
 //             error: error.message,
 //         });
 //     }
 // };
+
+exports.UserLogout = async (req, res) => {
+    try {
+        // If using session-based authentication
+        if (req.session) {
+            req.session.destroy(err => {
+                if (err) {
+                    return res.status(500).json({
+                        message: "Logout failed",
+                        error: err.message,
+                    });
+                }
+                return res.status(200).json({
+                    message: "Logout successful"
+                });
+            });
+        } else {
+            return res.status(200).json({
+                message: "Logout successful"
+            });
+        }
+    } catch (error) {
+        return res.status(500).json({
+            message: "Logout failed",
+            error: error.message,
+        });
+    }
+};
 
 
 
