@@ -15,6 +15,7 @@ app.use(express.json());
 app.use(cors());
 app.use("/users", userRoute);
 app.use("/posts", blogPostsRoute);
+// app.use('/uploads', express.static(path.join(__dirname, 'Upload')));
 
 //MiddleWare
 app.use((req, res, next) =>{

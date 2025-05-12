@@ -70,22 +70,7 @@ exports.createUser = async (req, res) => {
             user: sanitizedUser,
           });
 
-        // return res.status(200).json({
-        //     message: "Sign up successfully",
-        //     data: newUser,
-        // });
-
-        
-
     }
-    //  catch (error) {
-    //     console.error("Sign up error:", error);
-    //     return res.status(400).json({
-    //         message: "Unable to sign up.\nTry again",
-    //         error: error.message,
-    //     });
-    // }
-
     catch (error) {
       console.error(" Signup failed with error stack: \n ", error.stack);
       return res.status(400).json({

@@ -7,7 +7,7 @@ userRoute.post('/new-users', userController.createUser);
 userRoute.post('/login', userController.UserLogin );
 userRoute.post('/logout', userController.UserLogout );
 
-//userRoute.post("/Post-upload/:PostId")
+//userRoute.post("/create-post/:PostId")
 module.exports = userRoute;
   
 //:postsId',upload.single("imageUrl"),
