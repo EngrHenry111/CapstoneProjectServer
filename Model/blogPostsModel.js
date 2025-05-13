@@ -18,12 +18,12 @@ const blogPostSchema = new mongoose.Schema({
         type: String,
     },
 
-//    author:[ {
-//         type: mongoose.Schema.Types.ObjectId, 
-//         ref: "Users",
+   author:[ {
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "Users",
 
-//     },],
+  },],
 },
-{timestamps: true}
+//{timestamps: true}
 );
 module.exports = mongoose.model('Posts', blogPostSchema);
