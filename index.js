@@ -5,8 +5,6 @@ const userRoute = require('./Route/userRoute');
 const blogPostsRoute = require('./Route/blogPostsRoute');
 
 
-
-
 const app = express();
 const port = 6000
 
@@ -15,7 +13,7 @@ app.use(express.json());
 app.use(cors());
 app.use("/users", userRoute);
 app.use("/posts", blogPostsRoute);
-// app.use('/uploads', express.static(path.join(__dirname, 'Upload')));
+// app.use( '/uploads', express.static(path.join(__dirname, 'Upload')));
 
 //MiddleWare
 app.use((req, res, next) =>{
@@ -25,7 +23,7 @@ app.use((req, res, next) =>{
 
 
 app.get("/", (req, res)=> {
-    res.send("API is generated successfully")
+    res.send(" API is generated successfully ")
 })
 
 const live_URI = "mongodb+srv://EngrHenry:engrakpan@cluster.wavse.mongodb.net/Blogwebsite?retryWrites=true&w=majority&appName=Cluster"

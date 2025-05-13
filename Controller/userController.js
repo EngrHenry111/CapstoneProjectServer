@@ -11,7 +11,7 @@ const JWT_SECRET = process.env.JWT_SECRET || "yourSecretKey";
 exports.createUser = async (req, res) => {
     try {
       //console.log("Incoming req.body:", req.body);
-       const getPostId = await  blogPostModel.findById(req.params.id)
+       //const getPostId = await blogPostModel.findById(req.params)
        const { userName, email, password } = req.body;
 
         if (!userName){
@@ -48,16 +48,16 @@ exports.createUser = async (req, res) => {
         });
 
 
-        getPostId.author.push(newUser?._id);
-        getPostId.save();
+        // getPostId.author.push(newUser?._id);
+        // getPostId.save();
 
         const token = jwt.sign(
             { id: newUser._id, email: newUser.email },
             JWT_SECRET,
-            { expiresIn: "7d" }
+            {expiresIn: "7d"}
           );
 
-          const { password: _, ...sanitizedUser } = newUser._doc;
+          const {password: _, ...sanitizedUser } = newUser._doc;
 
           return res.status(200).json({
             message: "Sign up successfully. Explore",
@@ -67,7 +67,7 @@ exports.createUser = async (req, res) => {
 
     }
     catch (error) {
-      console.error(" Signup failed with error stack: \n ", error.stack);
+      console.error(" Signup failed with error stack: ", error.stack);
       return res.status(400).json({
         message: "Unable to sign up.\n Check and try again",
         error: error.stack,
