@@ -10,10 +10,9 @@ const JWT_SECRET = process.env.JWT_SECRET || "yourSecretKey";
 // Create User
 exports.createUser = async (req, res) => {
     try {
-      console. log("Incoming req.body:", req.body);
-       //const getPostId = await  blogPostModel.findById(req.params.id)
-        const { userName, email, password } = req.body;
-
+      //console.log("Incoming req.body:", req.body);
+       const getPostId = await  blogPostModel.findById(req.params.id)
+       const { userName, email, password } = req.body;
 
         if (!userName){
             return res.status(200).json({

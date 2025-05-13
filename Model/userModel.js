@@ -18,7 +18,7 @@ const UserSchema = new mongoose.Schema({
         // unique: true
     }
 }, 
-{timestamps: true}
+//{timestamps: true}
 );
 
 module.exports = mongoose.model("Users", UserSchema);
