@@ -71,7 +71,7 @@ exports.createPosts = async(req , res)=>{
 
       exports.deletePosts = async (req, res) => {
         try {
-          const deletePosts = await blogPostModel.deleteById(req.params);
+          const deletePosts = await blogPostModel.deleteById(req.params.id);
           return res.status(200).json({
             message: 'Posts deleted',
             data: deletePosts,

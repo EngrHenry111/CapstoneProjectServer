@@ -1,7 +1,6 @@
 
 
-
- const blogPostModel = require('../Model/blogPostsModel');
+ //const blogPostModel = require('../Model/blogPostsModel');
 const userModel = require("../Model/userModel");
 const bcrypt = require("bcryptjs"); // For password hashing
 const jwt = require('jsonwebtoken');
@@ -10,7 +9,7 @@ const JWT_SECRET = process.env.JWT_SECRET || "yourSecretKey";
 // Create User
 exports.createUser = async (req, res) => {
     try {
-      //console.log("Incoming req.body:", req.body);
+    
        //const getPostId = await blogPostModel.findById(req.params)
        const { userName, email, password } = req.body;
 
@@ -90,7 +89,7 @@ exports.UserLogin = async (req, res) => {
       const user = await userModel.findOne({ email });
       if (!user) {
         return res.status(401).json({ message: "Invalid email or password" });
-      }
+      }  
   
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
