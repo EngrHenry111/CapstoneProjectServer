@@ -69,20 +69,39 @@ exports.createPosts = async(req , res)=>{
 
 
 
+      // exports.deletePosts = async (req, res) => {
+      //   try {
+      //     const deletePosts = await blogPostModel.deleteById(req.params.id);
+      //     return res.status(200).json({
+      //       message: 'Posts deleted',
+      //       data: deletePosts,
+      //     });
+      //   } catch (error) {
+      //     return res.status(400).json({
+      //       message: "couldn't delete Posts",
+      //       error,
+      //     });
+      //   }
+      // };
+
+
+
       exports.deletePosts = async (req, res) => {
-        try {
-          const deletePosts = await blogPostModel.deleteById(req.params.id);
-          return res.status(200).json({
-            message: 'Posts deleted',
-            data: deletePosts,
-          });
-        } catch (error) {
-          return res.status(400).json({
-            message: "couldn't delete Posts",
-            error,
-          });
-        }
-      };
+  try {
+    const postId = req.params.id;
+    const deletePosts = await blogPostModel.findByIdAndDelete(postId); // ✅ this line
+    return res.status(200).json({
+      message: 'Post deleted',
+      data: deletePosts,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: "Couldn't delete post",
+      error,
+    });
+  }
+};
+
 
       
 
