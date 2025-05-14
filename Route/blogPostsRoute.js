@@ -9,7 +9,7 @@ blogPostsRoute.post('/UploadPosts', upload.single("imageUrl"), blogPostsControll
 blogPostsRoute.get('/allPost', blogPostsController.getAllPosts);
 blogPostsRoute.get('/singlePost/:id', blogPostsController.getOnePostsById);
 blogPostsRoute.delete('/deletePost/:id', blogPostsController.deletePosts);
-blogPostsRoute.patch('/deletePost/:id', blogPostsController.updatePost);
+blogPostsRoute.patch('/updatePost/:id', blogPostsController.updatePost);
 
 // blogPostsRoute.post("/create-post/:postId")
 
