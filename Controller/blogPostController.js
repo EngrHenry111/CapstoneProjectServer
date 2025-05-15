@@ -11,10 +11,10 @@ exports.createPosts = async(req , res)=>{
        
         const upload = await cloudinary.uploader.upload(req.file.path)
         const Posts = await blogPostModel.create({
-            imageUrl: upload.secure_url,
-            title,
-            subtitle,
-            content
+          imageUrl: upload.secure_url,
+          title,
+          subtitle,
+          content
            
         });
         return res.status(201).json({
@@ -69,27 +69,12 @@ exports.createPosts = async(req , res)=>{
 
 
 
-      // exports.deletePosts = async (req, res) => {
-      //   try {
-      //     const deletePosts = await blogPostModel.deleteById(req.params.id);
-      //     return res.status(200).json({
-      //       message: 'Posts deleted',
-      //       data: deletePosts,
-      //     });
-      //   } catch (error) {
-      //     return res.status(400).json({
-      //       message: "couldn't delete Posts",
-      //       error,
-      //     });
-      //   }
-      // };
-
-
+      
 
       exports.deletePosts = async (req, res) => {
   try {
     const postId = req.params.id;
-    const deletePosts = await blogPostModel.findByIdAndDelete(postId); // ✅ this line
+    const deletePosts = await blogPostModel.findByIdAndDelete(postId); 
     return res.status(200).json({
       message: 'Post deleted',
       data: deletePosts,
@@ -105,25 +90,24 @@ exports.createPosts = async(req , res)=>{
 
       
 
-      exports.updatePost = async(req, res)=>{
-        try {
-          const {id} = req.params
-          const { title, subtitle, content} = req.body
+exports.updatePost = async(req, res)=>{
+  try {
+    const {id} = req.params
+    const { title, subtitle, content} = req.body
 
-          const postsUpdates = await blogPostModel.findByIdAndUpdate(id ,
-             {title, subtitle, content} ,
-             {new:true})
-          return res.status(202).json({
-          message : "Posts updated",
-          data : postsUpdates
-          });
-        } catch (error) {
-          return res.status(400).json({
-            message : "failed to update posts",
-            error
-          });
-        }
-    };
+    const postsUpdates = await blogPostModel.findByIdAndUpdate(id ,
+        {title, subtitle, content} ,
+        {new:true})
+    return res.status(202).json({
+    message : "Posts updated",
+    data : postsUpdates
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message : "failed to update posts",
+      error
+    });
+  }};
 
 
 
