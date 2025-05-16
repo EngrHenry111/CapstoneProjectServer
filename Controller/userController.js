@@ -145,9 +145,54 @@ exports.UserLogout = async (req, res) => {
 
 
 
+exports.updateUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const {userName, password, email} = req.body;
+    const update = await userModel.findByIdAndUpdate(
+      id,
+      { password, userName , email},
+      { new: true }
+    );
+   
+    return res.status(202).json({ 
+      message: "updated",
+      data: update,
+    });
+
+  } catch (error) {
+    return res.status(400).json({
+      
+      message: "failed to update user",
+      error,
+    });
+  }
+};
 
 
 
+
+ 
+exports.getAllUsers = async (req, res) => {
+  try {
+    const users = await userModel.find();
+ 
+    if (!users) {
+      return res.status(400).json({
+        message: "couldn't get users , collection is empty",
+      });
+    }
+    return res.status(200).json({
+      message: "gotten all users",
+      data: users,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message,
+      name: error.name,
+    });
+  }
+};
 
 
 
