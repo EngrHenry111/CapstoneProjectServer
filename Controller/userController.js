@@ -148,10 +148,10 @@ exports.UserLogout = async (req, res) => {
 exports.updateUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const {userName, password, email} = req.body;
+    const {userName, email, password} = req.body;
     const update = await userModel.findByIdAndUpdate(
       id,
-      { password, userName , email},
+      { userName, email, password,},
       { new: true }
     );
    
